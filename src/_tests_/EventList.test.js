@@ -1,38 +1,33 @@
-import { render } from '@testing-library/react';
+import { render, within, waitFor } from '@testing-library/react';
+import { getEvents } from '../api';
 import EventList from '../components/EventList';
-
-jest.mock('../api', () => ({
-  getEvents: jest.fn(() => Promise.resolve(mockEvents)),
-}));
-
-const mockEvents = [
-  {
-    id: 1,
-    name: 'Event 1',
-    city: 'Berlin, Germany',
-    // Add other event properties as needed
-  },
-  {
-    id: 2,
-    name: 'Event 2',
-    city: 'Munich, Germany',
-    // Add other event properties as needed
-  },
-  // Add more mock events as needed
-];
+import App from "../App";
 
 describe('<EventList /> component', () => {
   let EventListComponent;
   beforeEach(() => {
-    EventListComponent = render(<EventList events={mockEvents} />);
-  });
+    EventListComponent = render(<EventList />);
+  })
 
   test('has an element with "list" role', () => {
-    expect(EventListComponent.queryByRole('list')).toBeInTheDocument();
+    expect(EventListComponent.queryByRole("list")).toBeInTheDocument();
   });
 
-  test('renders correct number of events', () => {
-    const listItems = EventListComponent.getAllByRole('listitem');
-    expect(listItems).toHaveLength(mockEvents.length);
+  test('renders correct number of events', async () => {
+    const allEvents = await getEvents();
+    EventListComponent.rerender(<EventList events={allEvents} />);
+    expect(EventListComponent.getAllByRole("listitem")).toHaveLength(allEvents.length);
+  });
+});
+
+describe('<EventList /> integration', () => {
+  test('renders a non-empty list of events when the app is mounted and rendered', async () => {
+    const AppComponent = render(<App />);
+    const AppDOM = AppComponent.container.firstChild;
+    const EventListDOM = AppDOM.querySelector('#event-list');
+    await waitFor(() => {
+      const EventListItems = within(EventListDOM).queryAllByRole('listitem');
+      expect(EventListItems.length).toBe(32);
+    });
   });
 });
