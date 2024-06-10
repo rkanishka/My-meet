@@ -54,6 +54,7 @@ defineFeature(feature, (test) => {
         await userEvent.type(button, '{backspace}{backspace}10');
       }
     );
+    
 
     then(
       'the number of events displayed will update to the number the user selected',
