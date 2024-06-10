@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const NumberOfEvents = ({ setCurrentNOE }) => {
+const NumberOfEvents = ({ setCurrentNOE , setErrorAlert }) => {
     const [number, setNumber] = useState('32'); // before eventNumber
 
     const handleInputChanged = (event) => {
@@ -14,7 +14,7 @@ const NumberOfEvents = ({ setCurrentNOE }) => {
         }
         setNumber(value);
         setCurrentNOE(value);
-        //setErrorAlert(errorText);
+        setErrorAlert(errorText);
     }
 
     return (

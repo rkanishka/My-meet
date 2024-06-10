@@ -4,7 +4,6 @@ import { render, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 const feature = loadFeature('./src/features/specifyNumberOfEvents.feature');
-
 defineFeature(feature, (test) => {
   // SCENARIO 1
   test("When user hasn't specified a number, 32 is the default number", ({

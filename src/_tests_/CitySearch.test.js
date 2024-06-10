@@ -7,7 +7,11 @@ import { extractLocations, getEvents } from '../api';
 describe('<CitySearch /> component', () => {
   let CitySearchComponent;
   beforeEach(() => {
-    CitySearchComponent = render(<CitySearch allLocations={[]} />);
+    CitySearchComponent = render(<CitySearch allLocations={[]} 
+      setCurrentCity={() => { }}
+            setInfoAlert={() => { }}
+    
+    />);
   });
 
 
@@ -62,6 +66,7 @@ describe('<CitySearch /> component', () => {
     CitySearchComponent.rerender(<CitySearch
       allLocations={allLocations}
       setCurrentCity={() => { }}
+      setInfoAlert={() => { }}
     />);
 
     const cityTextBox = CitySearchComponent.queryByRole('textbox');
